@@ -11,8 +11,46 @@ This app shows the optimization ideas from the examples applied to a real VLA mo
 - Project page: https://fai-modelopt-tech.github.io/vla-cpp.github.io/
 - Models: https://huggingface.co/collections/vrfai/vlacpp-model-bundles
 
-No local Linux + NVIDIA setup? [run_smolvla_colab.ipynb](run_smolvla_colab.ipynb) runs every
-step below on Google Colab.
+On Windows, do every step below inside WSL2 (Ubuntu + NVIDIA driver; CUDA 12 toolkit in WSL),
+cloning `vla.cpp` to `~/vla.cpp`. Then, from the VS Code terminal:
+```bash
+wsl bash apps/vla.cpp/run_local.sh one     # one episode, task 0
+wsl bash apps/vla.cpp/run_local.sh all     # all 10 libero_object tasks
+wsl bash apps/vla.cpp/run_local.sh multi   # pick 3-4 objects in a row in one scene
+```
+[run_local.sh](run_local.sh) starts the server, runs the client and stops the server;
+[run_multi_pick.py](run_multi_pick.py) is the multi-object client. Videos go to `~/libero_outputs`
+(from Windows: `\\wsl$\Ubuntu-24.04\home\<user>\libero_outputs`).
+Env vars: `N` episodes per task, `TASKS` task ids, `SERVER_ARGS` extra `vla-server` flags, `OUT`.
+
+## Results
+
+RTX 3050 Laptop GPU (4 GB, WSL2), `--n-action-steps 10`. Success over `libero_object` episodes
+(10 per task for the default, 3 per task otherwise); latency = median of 100 back-to-back calls
+with vla.cpp's `eval/client/benchmark.py`; weights = `weight_buf` the server reports.
+
+| `SERVER_ARGS`                    | success        | server latency | weights  |
+|----------------------------------|---------------:|---------------:|---------:|
+| (default: LM GEMMs widened to f32) | 93/100 (93%) | 183 ms | 1763 MiB |
+| `--weight-dtype bf16`            | 27/30 (90%)    | 221 ms         |  985 MiB |
+| `--weight-dtype f16`             | 27/30 (90%)    | 225 ms         |  985 MiB |
+| `--num-steps 5` (checkpoint: 10) | 28/30 (93%)    | **155 ms**     | 1763 MiB |
+| `--flash-attn 1`                 | 26/30 (87%)    | 163 ms         | 1763 MiB |
+
+- **Fewer flow-matching steps is the speed win**: half the denoising steps, -16% latency, no
+  measurable loss in success. Flash attention gives -11%.
+- **Smaller weights are not faster here**: bf16/f16 save 44% of weight memory but run ~20% slower
+  than the f32-widened default - the same lesson as TinyML Chat: speed depends on the kernel.
+- Tomato sauce (task 5) is the hard task: 6/10 with the default config.
+- `multi` (task 0 scene, salad dressing -> butter -> milk -> alphabet soup, 4 runs): 1-2 of 4
+  placed. Salad dressing works every time; butter and milk fail all 8 attempts although each scores
+  10/10 in its own task - likely because each was only ever trained in its own task's layout. `run_multi_pick.py` skips objects knocked over by more than ~45 degrees.
+  Returning the wrist to its start orientation between objects (not only the position) did not
+  change this: 1/4 again, with the arm hovering near the objects without grasping, so the wrist
+  pose left by the previous pick is not the cause.
+
+No local Linux + NVIDIA setup? [run_smolvla_colab.ipynb](run_smolvla_colab.ipynb) runs the same on
+Google Colab.
 
 ## Build server and install sim env for client
 

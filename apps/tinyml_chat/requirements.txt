@@ -1,0 +1,5 @@
+torch>=2.6
+tokenizers
+safetensors
+huggingface_hub
+jinja2
