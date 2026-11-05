@@ -50,7 +50,8 @@ with vla.cpp's `eval/client/benchmark.py`; weights = `weight_buf` the server rep
   pose left by the previous pick is not the cause.
 
 No local Linux + NVIDIA setup? [run_smolvla_colab.ipynb](run_smolvla_colab.ipynb) runs the same on
-Google Colab.
+Google Colab:
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/KuSenpai/modelopt101/blob/main/apps/vla.cpp/run_smolvla_colab.ipynb)
 
 ## Build server and install sim env for client
 
