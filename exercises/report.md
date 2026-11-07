@@ -98,39 +98,39 @@ Mở notebook bằng nút "Open in Colab", chọn `Runtime → Change runtime ty
 
 # Báo cáo bài 1.2: Tìm "vách đá" của quantization
 
-Ngày chạy: 06/11/2026 · Notebook: [1.2_quant_cliff.ipynb](1.2_quant_cliff.ipynb)
+Ngày chạy: 07/11/2026 (chạy lại cùng bài 1.3; lần đầu 06/11 cho cùng kết luận) · Notebook: [1.2_quant_cliff.ipynb](1.2_quant_cliff.ipynb)
 
 ## Tóm tắt
 
-- **PTQ per-tensor** giữ được đến 5 bit. Từ **4 bit** giảm quá 1 điểm (−2.49), từ **3 bit** giảm quá 5 điểm (−26.81).
-- **PTQ per-channel** lùi vách đá đi một bit. 4 bit chỉ mất 0.93 điểm, từ **3 bit** giảm quá 1 điểm (−4.52),
-  đến **2 bit** thì sụp (−80.12).
-- **QAT INT4 bằng STE đạt 91.45%**, cao hơn FP32 0.11 điểm. **Chỉ tiêu ≤ 1 điểm: PASS.**
-- Bonus: QAT kéo INT3 về 91.32% (−0.02) và INT2 từ 11.22% lên 89.40% (−1.94, chưa đạt ngưỡng 1 điểm).
+- **PTQ per-tensor** giữ được đến 5 bit. Từ **4 bit** giảm quá 1 điểm (−1.67), từ **3 bit** giảm quá 5 điểm (−46.25).
+- **PTQ per-channel** lùi vách đá đi một bit. 4 bit chỉ mất 0.80 điểm, từ **3 bit** giảm quá 1 điểm (−4.83),
+  đến **2 bit** thì sụp (−80.05).
+- **QAT INT4 bằng STE đạt 91.38%**, cao hơn FP32 0.13 điểm. **Chỉ tiêu ≤ 1 điểm: PASS.**
+- Bonus: QAT kéo INT3 về 91.27% (+0.02) và INT2 từ 11.20% lên 89.14% (−2.11, chưa đạt ngưỡng 1 điểm).
 
 ## Thiết lập
 
 | Mục | Giá trị |
 |---|---|
 | Phần cứng | Google Colab, GPU Tesla T4 |
-| Model FP32 | Student `Net` của bài 1.1 (VGG 6 conv, 1.15M params), train 20 epoch **có KD** từ ResNet-18 (15 epoch, 91.20%), T = 4, α = 0.7. Chưa pruning |
+| Model FP32 | Student `Net` của bài 1.1 (VGG 6 conv, 1.15M params), train 20 epoch **có KD** từ ResNet-18 (15 epoch, 91.43%), T = 4, α = 0.7. Chưa pruning |
 | PTQ | Weight-only fake-quant, symmetric, mọi `Conv2d` và `Linear`; bits 8 → 2; per-tensor và per-channel (theo output channel). BN và activation giữ FP32 |
 | QAT | Parametrization `w + (deq(q(w)) − w).detach()` (STE), per-channel, fine-tune 8 epoch từ checkpoint FP32, SGD + OneCycle, LR 0.01, KD loss |
 | Đo QAT | Bỏ parametrization, đưa weight ẩn qua đúng `quantize_model` của PTQ rồi đo accuracy |
 
 ## Kết quả
 
-PTQ theo số bit (FP32 = 91.34%):
+PTQ theo số bit (FP32 = 91.25%):
 
 | Bit | Per-tensor | Δ | Per-channel | Δ |
 |---:|---:|---:|---:|---:|
-| 8 | 91.33% | −0.01 | 91.33% | −0.01 |
-| 7 | 91.41% | +0.07 | 91.37% | +0.03 |
-| 6 | 91.12% | −0.22 | 91.26% | −0.08 |
-| 5 | 90.74% | −0.60 | 91.24% | −0.10 |
-| 4 | **88.85%** | **−2.49** | 90.41% | −0.93 |
-| 3 | **64.53%** | **−26.81** | **86.82%** | **−4.52** |
-| 2 | 10.00% | −81.34 | **11.22%** | **−80.12** |
+| 8 | 91.29% | +0.04 | 91.26% | +0.01 |
+| 7 | 91.30% | +0.05 | 91.24% | −0.01 |
+| 6 | 91.17% | −0.08 | 91.12% | −0.13 |
+| 5 | 90.80% | −0.45 | 91.04% | −0.21 |
+| 4 | **89.58%** | **−1.67** | 90.45% | −0.80 |
+| 3 | **45.00%** | **−46.25** | **86.42%** | **−4.83** |
+| 2 | 10.00% | −81.25 | **11.20%** | **−80.05** |
 
 | Vách đá | Giảm > 1 điểm từ | Giảm > 5 điểm từ |
 |---|---:|---:|
@@ -141,30 +141,33 @@ PTQ so với QAT:
 
 | Bit | PTQ per-tensor | PTQ per-channel | QAT per-channel | Δ QAT vs FP32 |
 |---:|---:|---:|---:|---:|
-| 4 | 88.85% | 90.41% | **91.45%** | **+0.11** |
-| 3 | 64.53% | 86.82% | 91.32% | −0.02 |
-| 2 | 10.00% | 11.22% | 89.40% | −1.94 |
+| 4 | 89.58% | 90.45% | **91.38%** | **+0.13** |
+| 3 | 45.00% | 86.42% | 91.27% | +0.02 |
+| 2 | 10.00% | 11.20% | 89.14% | −2.11 |
 
 | Chỉ tiêu | Kết quả | |
 |---|---|---|
-| QAT INT4 mất ≤ 1 điểm so với FP32 | +0.11 điểm (không mất) | **PASS** |
+| QAT INT4 mất ≤ 1 điểm so với FP32 | +0.13 điểm (không mất) | **PASS** |
+
+Lần chạy đầu (06/11) để đối chiếu: FP32 91.34%, PTQ INT4 per-tensor / per-channel 88.85% / 90.41%,
+QAT INT4 / INT3 / INT2 91.45% / 91.32% / 89.40%. Vị trí vách đá và kết luận PASS giống hệt.
 
 ## Nhận xét
 
 **Vách đá rơi đúng ở chỗ lưới quá thưa so với độ chênh giữa các filter.** Từ 8 xuống 5 bit gần như không mất
 gì. Với per-tensor, một scale cho cả lớp bị filter có weight lớn nhất quyết định, nên filter nhỏ chỉ dùng được vài
-mức; vì vậy per-tensor gãy sớm hơn per-channel một bit. Khoảng cách lớn nhất ở 3 bit: 86.82% so với 64.53%
-(22.29 điểm). Ở 2 bit, lưới symmetric chỉ có 4 mức `{-2, -1, 0, 1} × max|w|`, mọi weight nhỏ hơn nửa max bị làm
+mức; vì vậy per-tensor gãy sớm hơn per-channel một bit. Khoảng cách lớn nhất ở 3 bit: 86.42% so với 45.00%
+(41.42 điểm). Ở 2 bit, lưới symmetric chỉ có 4 mức `{-2, -1, 0, 1} × max|w|`, mọi weight nhỏ hơn nửa max bị làm
 tròn về 0, nên cả hai cách đều về mức đoán ngẫu nhiên.
 
-**QAT xoá vách đá ở 4 và 3 bit.** PTQ INT4 per-channel thực ra cũng vừa lọt ngưỡng (−0.93) nhưng chỉ dư 0.07 điểm.
-QAT kéo lên 91.45% ngay từ epoch 1 (91.19%). INT3 từ 86.82% lên 91.32%. INT2 hồi phục 78 điểm lên 89.40%, vẫn đang
-tăng ở epoch cuối (86.86 → 89.40), nên thêm epoch nhiều khả năng sẽ còn lên. Accuracy của model INT-n xuất ra khớp
-accuracy fake-quant lúc train (sai khác ≤ 0.01 điểm).
+**QAT xoá vách đá ở 4 và 3 bit.** PTQ INT4 per-channel thực ra cũng lọt ngưỡng (−0.80) nhưng chỉ dư 0.20 điểm.
+QAT kéo lên 91.38%, ngay epoch 1 đã 90.89%. INT3 từ 86.42% lên 91.27%. INT2 hồi phục gần 78 điểm lên 89.14%, vẫn
+đang tăng ở epoch cuối (86.85 → 89.14), nên thêm epoch nhiều khả năng sẽ còn lên. Accuracy của model INT-n xuất ra
+trùng khớp accuracy fake-quant lúc train.
 
-**Phải đọc +0.11 của QAT INT4 cẩn thận.** QAT là thêm 8 epoch fine-tune bằng KD, nên một phần mức tăng có thể đến
+**Phải đọc +0.13 của QAT INT4 cẩn thận.** QAT là thêm 8 epoch fine-tune bằng KD, nên một phần mức tăng có thể đến
 từ việc train thêm chứ không phải từ quantization. So sánh hoàn toàn công bằng cần fine-tune FP32 thêm 8 epoch làm
-mốc. Ngoài ra +0.11 nằm trong nhiễu của một seed.
+mốc. Ngoài ra +0.13 nằm trong nhiễu của một seed.
 
 ## Hạn chế và hướng tiếp theo
 
@@ -172,5 +175,88 @@ mốc. Ngoài ra +0.11 nằm trong nhiễu của một seed.
 - **Size chưa giảm thật ở 4/3/2 bit:** bản packed vẫn lưu trong `int8`. Cần nén nhiều số vào một byte. Về lý thuyết
   weight INT4 nhỏ hơn FP32 8 lần.
 - **INT2:** thử QAT lâu hơn, giữ conv đầu và lớp cuối ở 8 bit, hoặc học scale (LSQ) thay vì dùng `max|w|`.
-- **Một seed.** Student FP32 lần này đạt 91.34% (bài 1.1: 91.38%) dù teacher giống hệt, do GPU không hoàn toàn tất định.
-- **Tải CIFAR-10 mất 26 phút** (khoảng 108 kB/s), lâu hơn cả phần tính toán (khoảng 23 phút).
+- **Một seed, GPU không hoàn toàn tất định.** Cùng code, student FP32 đạt 91.38% (bài 1.1), 91.34% (1.2 lần đầu),
+  91.25% (lần này).
+- **Mount Google Drive thất bại ở lần chạy này** (`ValueError`), nên checkpoint lưu ở `./ckpt` và CIFAR-10 phải tải
+  lại, mất 27 phút (khoảng 104 kB/s), lâu hơn phần tính toán.
+
+---
+
+# Báo cáo bài 1.3: Cho INT8 thật sự chạy nhanh trên CPU
+
+Ngày chạy: 07/11/2026 · Notebook: [1.2_quant_cliff.ipynb](1.2_quant_cliff.ipynb), mục 10–14 (dùng chung data và
+student KD với bài 1.2)
+
+## Tóm tắt
+
+- Static PTQ INT8 thật (cả weight lẫn activation, kernel số nguyên) bằng hai cách: PyTorch `torch.ao.quantization`
+  FX và ONNX Runtime QDQ.
+- **Chỉ tiêu "latency giảm ≥ 2 lần so với FP32 eager": đạt một phần.** ORT INT8 đạt **3.03x ở batch 1 (PASS)** nhưng
+  1.95x ở batch 64; PyTorch INT8 đạt 1.88x / 1.52x (FAIL).
+- So cùng runtime, riêng INT8 chỉ cho **1.5–1.8x**. Phần còn lại của 3.03x đến từ việc ORT FP32 đã nhanh hơn
+  PyTorch eager 1.95x.
+- Kích thước giảm 3.9 lần. PyTorch INT8 gần như giữ nguyên accuracy (−0.09), ORT INT8 mất 1.28 điểm.
+
+## Thiết lập
+
+| Mục | Giá trị |
+|---|---|
+| Phần cứng | CPU runtime Colab: Intel Xeon @ 2.00GHz, 2 luồng, AVX2 + AVX-512F, **không có VNNI/AMX** |
+| Phần mềm | torch 2.14.1 (quantized engine `x86`), onnxruntime 1.31.1 |
+| Model | Student KD của bài 1.2 (FP32 91.25%) |
+| Calibration | 512 ảnh train, transform của tập test |
+| PyTorch | `prepare_fx` / `convert_fx`, qconfig mặc định `x86` (weight INT8 per-channel, activation UINT8) |
+| ONNX Runtime | Export (BN đã fold) → `quant_pre_process` → `quantize_static` QDQ, per-channel, U8S8, calibration MinMax mặc định |
+| Đo latency | Input ngẫu nhiên 3×32×32, warmup rồi median của 300 lần (batch 1) / 40 lần (batch 64); 2 luồng cho cả PyTorch và ORT |
+
+## Kết quả
+
+| Model | Acc | Size MB | Batch 1 ms | Tăng tốc | Batch 64 ms | Tăng tốc | ảnh/s (b64) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| PyTorch FP32 (eager, mốc) | 91.25% | 4.62 | 5.627 | 1.00x | 214.35 | 1.00x | 299 |
+| PyTorch FP32 (BN folded) | 91.25% | 4.60 | 5.338 | 1.05x | 211.22 | 1.01x | 303 |
+| PyTorch INT8 (FX, x86) | 91.16% | 1.18 | 2.997 | 1.88x | 141.40 | 1.52x | 453 |
+| ONNX Runtime FP32 | 91.25% | 4.62 | 2.887 | 1.95x | 161.31 | 1.33x | 397 |
+| ONNX Runtime INT8 (QDQ) | 89.97% | 1.19 | **1.860** | **3.03x** | 109.87 | 1.95x | 583 |
+
+Tăng tốc chỉ do INT8 (so cùng runtime):
+
+| | Batch 1 | Batch 64 |
+|---|---:|---:|
+| PyTorch INT8 / PyTorch FP32 folded | 1.78x | 1.49x |
+| ORT INT8 / ORT FP32 | 1.55x | 1.47x |
+
+| Chỉ tiêu (so với FP32 eager) | Batch 1 | Batch 64 |
+|---|---|---|
+| PyTorch INT8 ≥ 2x | 1.88x — FAIL | 1.52x — FAIL |
+| ORT INT8 ≥ 2x | **3.03x — PASS** | 1.95x — FAIL |
+
+## Nhận xét
+
+**INT8 thật có nhanh hơn, nhưng trên CPU này chưa tới 2x nếu so công bằng.** Khác với bài 1.1/1.2 (fake-quant,
+latency không đổi), ở đây conv chạy bằng kernel số nguyên nên latency giảm thật 1.5–1.8x. Con số 3.03x của ORT
+trông đẹp nhưng trộn hai hiệu ứng: đổi runtime (ORT FP32 đã 1.95x vì ít overhead và fuse sẵn) và đổi kiểu số.
+
+**Vì sao chưa tới 2x** (giả thuyết, chưa tách riêng từng yếu tố):
+- CPU không có VNNI, nên phép `u8 × s8 → s32` phải dùng chuỗi `vpmaddubsw` + `vpmaddwd` + `vpaddd` thay vì một lệnh
+  `vpdpbusd`, mất phần lớn lợi thế 4x số phần tử mỗi lệnh.
+- Model và ảnh nhỏ (32×32, conv đầu 3 kênh vào, 2–6 ms mỗi lần gọi), nên chi phí cố định (quantize/dequantize ở hai
+  đầu, pooling, gọi kernel) chiếm phần đáng kể.
+- Chỉ 2 luồng trên máy ảo dùng chung, số đo có nhiễu.
+
+**Accuracy:** PyTorch INT8 gần như không mất (−0.09) còn ORT INT8 mất 1.28 điểm. Giả thuyết: ORT dùng calibration
+MinMax (PyTorch dùng HistogramObserver, cắt bớt outlier), và U8S8 trên CPU không VNNI có thể bị bão hoà ở
+`vpmaddubsw`; PyTorch tránh việc này bằng `reduce_range`.
+
+## Hạn chế và hướng tiếp theo
+
+- **Lấy lại accuracy cho ORT:** thử `CalibrationMethod.Percentile`/`Entropy`, `reduce_range=True` hoặc activation `QInt8`.
+- **Đo trên CPU có VNNI/AMX** và với nhiều luồng hơn để xem INT8 có vượt 2x không.
+- **API deprecated:** `torch.ao.quantization` FX đã báo deprecated; bản sau nên dùng `torchao` pt2e
+  (`prepare_pt2e` / `convert_pt2e`).
+- **Một lần đo:** nên lặp lại vài lần để có khoảng dao động của latency.
+
+## Tái hiện
+
+Mở `1.2_quant_cliff.ipynb` bằng nút "Open in Colab" (branch `exercise-1.3-1.4`), chọn T4 GPU, `Runtime → Run all`.
+Phần 1.3 tự cài `onnx`, `onnxruntime`, `onnxscript` và đo trên CPU của chính runtime đó.
