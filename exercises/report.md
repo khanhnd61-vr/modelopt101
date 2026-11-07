@@ -260,3 +260,125 @@ MinMax (PyTorch dùng HistogramObserver, cắt bớt outlier), và U8S8 trên CP
 
 Mở `1.2_quant_cliff.ipynb` bằng nút "Open in Colab" (branch `exercise-1.3-1.4`), chọn T4 GPU, `Runtime → Run all`.
 Phần 1.3 tự cài `onnx`, `onnxruntime`, `onnxscript` và đo trên CPU của chính runtime đó.
+
+---
+
+# Báo cáo bài 1.4: Sửa kernel Triton của notebook 05
+
+Ngày chạy: 07/11/2026 · Notebook: [1.4_triton_kernels.ipynb](1.4_triton_kernels.ipynb)
+
+## Tóm tắt
+
+- Kernel matmul của notebook 05, thêm `@triton.autotune` (16 config), FP16 vào / FP32 cộng dồn, ReLU fuse vào
+  epilogue, sửa công thức `pid_m` của thứ tự tile theo nhóm.
+- **Trên L4: trung bình 114.0% throughput cuBLAS** ở 8 kích thước lớn, thấp nhất 101.5%. **Chỉ tiêu ≥ 70%: PASS.**
+- **Trên T4: 4.5% cuBLAS (FAIL).** Mọi config đều dừng ở khoảng 1 TFLOP/s, nên con số 0.06x cũ là do GPU/Triton
+  trên Turing chứ không phải do code kernel: cùng config cố định của notebook 05 trên L4 đã đạt khoảng 72% cuBLAS.
+- ReLU fuse coi như miễn phí (nằm trong nhiễu), còn `torch.relu` riêng tốn thêm 2–29%. GROUP_M = 8 nhanh hơn
+  GROUP_M = 1 đến 1.73x khi ma trận B lớn hơn L2.
+- Softmax và layer norm theo tutorial đạt 0.93–1.22x torch, khoảng 78% băng thông bộ nhớ của L4.
+
+## Thiết lập
+
+| Mục | Giá trị |
+|---|---|
+| GPU chính | Colab **NVIDIA L4** (Ada, sm_89, 58 SM, L2 48 MB, 22 GB) |
+| GPU đối chiếu | Colab **Tesla T4** (Turing, sm_75, 40 SM, L2 4 MB) |
+| Phần mềm | torch 2.14.1+cu130, Triton 3.8.0, CUDA 13.0 |
+| Autotune | 16 config: 8 config của tutorial Triton + 8 config `num_stages = 2` (vừa 64 KB shared memory của T4); key `(M, N, K)` |
+| Mốc | cuBLAS = `torch.matmul` FP16; "nb05 cfg" = cùng kernel với tile cố định 64×64×32 |
+| Đo | `triton.testing.do_bench`, median, warmup 25 ms, rep 100 ms |
+| Kiểm tra đúng | So với matmul FP32 làm tròn về FP16, gồm kích thước lẻ 513×1000×777: sai khác tối đa 0.0625 (≈ 1 ULP) |
+
+## Kết quả
+
+Matmul FP16 trên **L4** (TFLOP/s):
+
+| M × N × K | cuBLAS | Triton autotune | % cuBLAS | nb05 cfg | % cuBLAS | Config autotune chọn |
+|---|---:|---:|---:|---:|---:|---|
+| 256³ | 2.98 | 3.28 | 110.0% | 2.52 | 84.6% | 64×32×32 w2 s5 |
+| 512³ | 18.72 | 15.42 | 82.4% | 11.38 | 60.8% | 32×64×32 w2 s5 |
+| 1024³ | 33.83 | 48.77 | 144.2% | 41.12 | 121.6% | 128×128×32 w4 s4 |
+| 2048³ | 60.13 | 69.91 | 116.3% | 50.99 | 84.8% | 128×128×32 w4 s4 |
+| 3072³ | 62.36 | 70.96 | 113.8% | 43.32 | 69.5% | 128×256×64 w8 s3 |
+| 4096³ | 55.68 | 65.03 | 116.8% | 39.99 | 71.8% | 128×256×64 w8 s3 |
+| 6144³ | 57.10 | 59.34 | 103.9% | 31.85 | 55.8% | 128×256×64 w8 s3 |
+| 8192³ | 54.85 | 55.68 | 101.5% | 31.03 | 56.6% | 128×256×64 w8 s3 |
+| 4096×11008×4096 | 57.96 | 59.12 | 102.0% | 31.17 | 53.8% | 128×256×64 w8 s3 |
+| 4096×4096×11008 | 47.43 | 54.03 | 113.9% | 31.16 | 65.7% | 128×256×64 w8 s3 |
+
+Cùng notebook trên **T4** (TFLOP/s, các kích thước ≥ 1024):
+
+| M × N × K | 1024³ | 2048³ | 3072³ | 4096³ | 6144³ | 8192³ | 4096×11008×4096 | 4096×4096×11008 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| cuBLAS | 37.17 | 34.95 | 30.12 | 22.61 | 14.94 | 20.91 | 14.94 | 20.42 |
+| Triton autotune | 1.22 | 1.09 | 1.01 | 0.99 | 0.94 | 0.95 | 0.98 | 0.93 |
+| % cuBLAS | 3.3% | 3.1% | 3.4% | 4.4% | 6.3% | 4.5% | 6.6% | 4.6% |
+
+| Chỉ tiêu: Triton ≥ 70% cuBLAS (trung bình các kích thước ≥ 1024) | Kết quả | |
+|---|---:|---|
+| L4 | 114.0% (8/8 kích thước ≥ 70%) | **PASS** |
+| T4 | 4.5% (0/8) | **FAIL** |
+
+Fused ReLU và GROUP_M trên L4 (chi phí ReLU = thời gian matmul + ReLU so với matmul trần của cùng thư viện):
+
+| M × N × K | ReLU thêm (torch) | ReLU thêm (Triton fuse) | GROUP_M = 1 TF/s | GROUP_M = 8 TF/s | G8 / G1 |
+|---|---:|---:|---:|---:|---:|
+| 1024³ | 8.1% | 2.3% | 48.77 | 47.66 | 0.98x |
+| 2048³ | 18.6% | −0.4% | 70.49 | 71.09 | 1.01x |
+| 3072³ | 9.1% | −6.0% | 78.48 | 72.41 | 0.92x |
+| 4096³ | 12.8% | 4.2% | 66.66 | 60.35 | 0.91x |
+| 6144³ | 2.1% | 5.2% | 43.01 | 59.17 | **1.38x** |
+| 8192³ | 9.8% | −0.2% | 39.03 | 55.93 | **1.43x** |
+| 4096×11008×4096 | 5.9% | 5.4% | 33.73 | 58.42 | **1.73x** |
+| 4096×4096×11008 | 4.4% | 3.4% | 48.47 | 50.67 | 1.05x |
+
+(Ở 256³ và 512³, ReLU riêng của torch tốn thêm 26–29%, Triton 0%.)
+
+Softmax (4096 hàng, FP32) và layer norm forward (4096 hàng, FP16) trên L4, GB/s tính một lần đọc + một lần ghi:
+
+| Số cột | Softmax Triton | `torch.softmax` | Softmax ghép op torch | Layer norm Triton | `F.layer_norm` |
+|---:|---:|---:|---:|---:|---:|
+| 512 | 224 | 221 | 120 | 200 | 191 |
+| 1024 | 231 | 218 | 112 | 213 | 205 |
+| 2048 | 233 | 221 | 84 | 223 | 220 |
+| 4096 | 234 | 230 | 62 | 228 | 228 |
+| 8192 | 231 | 233 | 60 | 233 | 229 |
+| 12288 / 16384 | 231 | 235 | 60 | 234 | 191 |
+
+(Hàng cuối: softmax đo ở 12288 cột, layer norm ở 16384 cột.)
+
+## Nhận xét
+
+**Autotune đủ để vượt cuBLAS trên L4.** Config thắng đổi theo kích thước: tile 128×128×32 (4 warp, 4 stage) cho
+1024–2048, tile 128×256×64 (8 warp, 3 stage) từ 3072 trở lên. So với config cố định của notebook 05, autotune nhanh
+hơn 1.2–1.9x. Việc vượt cuBLAS 1.5–44% nên đọc thận trọng: cuBLAS trên L4 chỉ đạt 47–62 TFLOP/s ở các kích thước lớn,
+có thể do heuristic chọn kernel chưa tốt cho GPU này. Cả hai thư viện đều chậm dần từ 3072 trở lên; giả thuyết là
+L4 (72 W) hạ xung khi chạy lâu, chưa kiểm chứng.
+
+**0.06x cũ là chuyện của T4, không phải của kernel.** Trên T4, mọi config (tile 32×64 đến 256×128, 2–8 warp) đều cho
+khoảng 1 TFLOP/s. Trần cố định không phụ thuộc tile như vậy là dấu hiệu `tl.dot` FP16 không chạy trên tensor core
+ở sm_75 với Triton 3.8. Mình chưa xác nhận trực tiếp; cách kiểm tra là tìm lệnh `mma` trong PTX của kernel đã biên
+dịch.
+
+**ReLU fuse miễn phí, GROUP_M chỉ có lợi khi ma trận vượt L2.** ReLU trong epilogue thêm −6% đến +5%, nằm trong
+nhiễu đo; ReLU riêng của torch tốn một kernel và một lượt đọc/ghi `C` nữa, thêm 2–29%. GROUP_M = 8 nhanh hơn
+1.38–1.73x khi B (75–134 MB) lớn hơn L2 48 MB. Khi B vừa L2 (3072–4096) thì GROUP_M = 1 lại nhanh hơn 8–9%.
+Riêng 4096×4096×11008 chỉ được 1.05x dù B cũng 90 MB, mình chưa giải thích được.
+
+**Softmax và layer norm đã gần trần băng thông.** Cả hai đạt 230–234 GB/s ở các cột lớn, khoảng 78% của 300 GB/s
+theo spec L4, ngang torch. Lợi ích rõ của fuse thấy được khi so với softmax ghép từ các op torch: chậm hơn 1.8–3.9x
+vì đọc/ghi tensor nhiều lần.
+
+## Hạn chế và hướng tiếp theo
+
+- **Mỗi GPU một lần chạy.** Hai lần chạy trên L4 lệch nhau vài phần trăm, nên chênh lệch dưới khoảng 5% là nhiễu.
+- **T4:** xác nhận giả thuyết tensor core bằng PTX. Nếu đúng thì trên Turing nên dùng cuBLAS, hoặc một bản Triton
+  cũ hơn còn hỗ trợ MMA cho sm_75.
+- **Chưa thử:** A/B chuyển vị, batch matmul, FP8/INT8, và backward của layer norm.
+- **A100/H100:** chưa chạy. Colab có hiện lựa chọn A100 nhưng lần này dùng L4.
+
+## Tái hiện
+
+Mở notebook bằng nút "Open in Colab" (branch `exercise-1.3-1.4`), chọn `Runtime → Change runtime type → L4 GPU`
+(hoặc A100), rồi `Runtime → Run all`. Khoảng 5 phút trên L4, phần lớn là autotune.
