@@ -1,0 +1,25 @@
+12:08 start A_default (N=10, flags: none)
+13:42 done  A_default
+13:42 start B_bf16 (N=3, flags: --weight-dtype bf16)
+14:08 done  B_bf16
+14:08 start C_f16 (N=3, flags: --weight-dtype f16)
+14:33 done  C_f16
+14:33 start D_steps5 (N=3, flags: --num-steps 5)
+17:29 start A_default (N=10, tasks: 0, flags: none)
+17:33 done  A_default
+17:33 start D_steps5 (N=3, tasks: 5 6 7 8 9, flags: --num-steps 5)
+17:40 done  D_steps5
+17:40 start E_flash (N=3, tasks: 0 1 2 3 4 5 6 7 8 9, flags: --flash-attn 1)
+17:57 done  E_flash
+ALL DONE
+02:01 start D2_steps5_N10
+02:01 done D2_steps5_N10
+02:02 start D2_steps5_N10
+02:50 done D2_steps5_N10
+04:03 start K_q8_s5
+04:53 done K_q8_s5
+04:53 start L_q4_s5
+05:59 done L_q4_s5
+QUANT DONE
+06:36 start M_q8
+07:27 done M_q8

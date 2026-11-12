@@ -1,0 +1,34 @@
+vla-server: loading model ...
+  ckpt:   models/smolvla/smolvla-libero-q8_0.gguf
+vla: arch = smolvla
+vla: config = models/smolvla/smolvla-libero-q8_0.gguf (gguf KV)
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 4095 MiB):
+  Device 0: NVIDIA GeForce RTX 3050 Laptop GPU, compute capability 8.6, VMM: yes, VRAM: 4095 MiB
+vla: backend = CUDA (device 0)
+vla(smolvla): fused CUDA ops on (VLA_FUSED_OPS=0 to disable)
+vla: [vram] after backend init     used=795.8 MiB  free=3299.7 MiB
+vla: tower weights resident as bf16
+vla: cfg  hidden=960 expert_h=480 expert_inter=1280 n_layers=32 n_img=64 n_lang=48 n_suffix=50 max_state=32 max_action=32
+vla: cfg  real_state_dim=8 real_action_dim=7
+vla: 225 GEMM weights kept packed as in the file (q8_0)
+vla: 192 LM GEMM weights widened to f32 for --mm-prec f32
+vla: [vram] weight_buf = 871.3 MiB
+vla: [vram] after weights alloc    used=1667.8 MiB  free=2427.7 MiB  (+872.0 MiB)
+vla-server: loaded. chunk_size=50  action_dim=32  n_lang=48  hidden=960  expert_h=480  timing_detail=none
+vla(smolvla): image view is 224x224, expected 512x512
+vla-server: warmup predict failed (synthetic inputs); continuing
+vla-server: bound to tcp://127.0.0.1:5555. ready.
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=0  served=1  total=1728.7 ms  vision=1482.8  inf=232.5  other=13.4
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=10  served=11  total=154.1 ms  vision=85.7  inf=67.5  other=0.9
+vla-server: rid=20  served=21  total=160.5 ms  vision=89.7  inf=70.0  other=0.7
+vla-server: rid=30  served=31  total=166.9 ms  vision=93.3  inf=72.4  other=1.2
+vla-server: rid=40  served=41  total=173.4 ms  vision=93.0  inf=78.9  other=1.5
+vla-server: rid=50  served=51  total=179.3 ms  vision=98.6  inf=79.2  other=1.5
+vla-server: rid=60  served=61  total=176.3 ms  vision=99.4  inf=76.2  other=0.7
+vla-server: rid=70  served=71  total=174.7 ms  vision=97.5  inf=76.3  other=0.8
+vla-server: rid=80  served=81  total=165.6 ms  vision=92.3  inf=72.6  other=0.7
+vla-server: rid=90  served=91  total=166.0 ms  vision=92.1  inf=73.2  other=0.7
+vla-server: rid=100  served=101  total=176.7 ms  vision=98.9  inf=77.1  other=0.8
+vla-server: shutting down (served 105 requests)

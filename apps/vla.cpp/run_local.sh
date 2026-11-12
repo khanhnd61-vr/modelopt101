@@ -9,6 +9,7 @@
 # From Windows (VS Code terminal): wsl bash apps/vla.cpp/run_local.sh one
 #
 # Env: N=10 episodes per task, TASKS="0 5" task ids for `all`, SERVER_ARGS="--weight-dtype f16" extra vla-server flags,
+#      MODEL=path to a (quantized) gguf, default models/smolvla/smolvla-libero.gguf,
 #      OUT=dir for videos and logs (default ~/libero_outputs).
 set -euo pipefail
 
@@ -22,7 +23,7 @@ export MUJOCO_GL=egl PYOPENGL_PLATFORM=egl VLA_CPP
 cd "$VLA_CPP"
 LOG="$OUT/vla-server.log"
 mkdir -p "$OUT"
-./build/vla-server ${SERVER_ARGS:-} --bind tcp://127.0.0.1:5555 models/smolvla/smolvla-libero.gguf > "$LOG" 2>&1 &
+./build/vla-server ${SERVER_ARGS:-} --bind tcp://127.0.0.1:5555 "${MODEL:-models/smolvla/smolvla-libero.gguf}" > "$LOG" 2>&1 &
 SERVER=$!
 trap 'kill $SERVER 2>/dev/null' EXIT
 for _ in $(seq 600); do

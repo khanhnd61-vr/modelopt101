@@ -1,0 +1,238 @@
+vla-server: loading model ...
+  ckpt:   models/smolvla/smolvla-libero-q8_0.gguf
+vla: arch = smolvla
+vla: config = models/smolvla/smolvla-libero-q8_0.gguf (gguf KV)
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 4095 MiB):
+  Device 0: NVIDIA GeForce RTX 3050 Laptop GPU, compute capability 8.6, VMM: yes, VRAM: 4095 MiB
+vla: backend = CUDA (device 0)
+vla(smolvla): fused CUDA ops on (VLA_FUSED_OPS=0 to disable)
+vla: [vram] after backend init     used=795.8 MiB  free=3299.7 MiB
+vla: tower weights resident as bf16
+vla: cfg  hidden=960 expert_h=480 expert_inter=1280 n_layers=32 n_img=64 n_lang=48 n_suffix=50 max_state=32 max_action=32
+vla: cfg  real_state_dim=8 real_action_dim=7
+vla: 225 GEMM weights kept packed as in the file (q8_0)
+vla: 192 LM GEMM weights widened to f32 for --mm-prec f32
+vla: [vram] weight_buf = 871.3 MiB
+vla: [vram] after weights alloc    used=1667.8 MiB  free=2427.7 MiB  (+872.0 MiB)
+vla-server: loaded. chunk_size=50  action_dim=32  n_lang=48  hidden=960  expert_h=480  timing_detail=none
+vla(smolvla): image view is 224x224, expected 512x512
+vla-server: warmup predict failed (synthetic inputs); continuing
+vla-server: bound to tcp://127.0.0.1:5555. ready.
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=0  served=1  total=1520.9 ms  vision=1288.9  inf=210.4  other=21.6
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=10  served=11  total=170.7 ms  vision=94.5  inf=75.1  other=1.1
+vla-server: rid=7  served=21  total=156.2 ms  vision=86.8  inf=68.2  other=1.2
+vla-server: rid=17  served=31  total=160.6 ms  vision=89.2  inf=70.4  other=0.9
+vla-server: rid=27  served=41  total=163.1 ms  vision=90.4  inf=71.4  other=1.3
+vla-server: rid=1  served=51  total=180.0 ms  vision=99.8  inf=79.3  other=1.0
+vla-server: rid=11  served=61  total=175.5 ms  vision=97.3  inf=77.4  other=0.9
+vla-server: rid=21  served=71  total=155.4 ms  vision=86.4  inf=68.3  other=0.8
+vla-server: rid=31  served=81  total=156.0 ms  vision=86.6  inf=68.6  other=0.8
+vla-server: rid=9  served=91  total=169.8 ms  vision=94.1  inf=74.7  other=1.0
+vla-server: rid=4  served=101  total=168.9 ms  vision=93.6  inf=74.3  other=1.0
+vla-server: rid=14  served=111  total=168.2 ms  vision=93.2  inf=74.2  other=0.8
+vla-server: rid=9  served=121  total=159.2 ms  vision=88.6  inf=69.6  other=1.0
+vla-server: rid=4  served=131  total=167.0 ms  vision=92.8  inf=73.3  other=0.8
+vla-server: rid=14  served=141  total=161.1 ms  vision=89.2  inf=70.9  other=0.9
+vla-server: rid=9  served=151  total=163.6 ms  vision=90.6  inf=72.2  other=0.8
+vla-server: rid=5  served=161  total=164.6 ms  vision=90.9  inf=72.8  other=0.9
+vla-server: rid=15  served=171  total=166.6 ms  vision=92.5  inf=73.0  other=1.1
+vla-server: rid=25  served=181  total=155.7 ms  vision=86.0  inf=68.7  other=1.0
+vla-server: rid=35  served=191  total=164.9 ms  vision=91.7  inf=72.3  other=0.8
+vla-server: rid=45  served=201  total=163.6 ms  vision=90.6  inf=72.0  other=1.0
+vla-server: rid=9  served=211  total=165.6 ms  vision=91.9  inf=72.5  other=1.2
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=4  served=221  total=154.8 ms  vision=86.3  inf=67.6  other=0.9
+vla-server: rid=1  served=231  total=156.3 ms  vision=87.0  inf=67.9  other=1.4
+vla-server: rid=11  served=241  total=154.9 ms  vision=86.0  inf=68.1  other=0.8
+vla-server: rid=8  served=251  total=168.9 ms  vision=94.1  inf=73.8  other=1.1
+vla-server: rid=6  served=261  total=155.8 ms  vision=86.9  inf=67.7  other=1.2
+vla-server: rid=4  served=271  total=175.4 ms  vision=98.7  inf=75.3  other=1.4
+vla-server: rid=0  served=281  total=480.0 ms  vision=400.5  inf=78.6  other=0.9
+vla-server: rid=10  served=291  total=169.6 ms  vision=93.7  inf=74.9  other=1.1
+vla-server: rid=8  served=301  total=157.3 ms  vision=86.9  inf=69.1  other=1.4
+vla-server: rid=4  served=311  total=169.4 ms  vision=94.1  inf=74.2  other=1.1
+vla-server: rid=0  served=321  total=344.3 ms  vision=265.9  inf=77.6  other=0.8
+vla-server: rid=10  served=331  total=164.6 ms  vision=91.2  inf=72.2  other=1.2
+vla-server: rid=6  served=341  total=155.6 ms  vision=86.5  inf=68.4  other=0.8
+vla-server: rid=16  served=351  total=160.6 ms  vision=89.2  inf=70.4  other=1.0
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=8  served=361  total=156.6 ms  vision=87.0  inf=68.1  other=1.4
+vla-server: rid=18  served=371  total=168.7 ms  vision=93.9  inf=74.0  other=0.8
+vla-server: rid=2  served=381  total=169.2 ms  vision=94.2  inf=74.1  other=1.0
+vla-server: rid=0  served=391  total=384.5 ms  vision=297.5  inf=85.4  other=1.6
+vla-server: rid=10  served=401  total=155.7 ms  vision=86.5  inf=68.0  other=1.2
+vla-server: rid=8  served=411  total=169.6 ms  vision=94.4  inf=74.1  other=1.1
+vla-server: rid=1  served=421  total=169.4 ms  vision=94.0  inf=74.1  other=1.3
+vla-server: rid=11  served=431  total=167.8 ms  vision=92.0  inf=74.4  other=1.4
+vla-server: rid=9  served=441  total=162.0 ms  vision=89.8  inf=71.2  other=0.9
+vla-server: rid=6  served=451  total=164.5 ms  vision=91.3  inf=72.1  other=1.1
+vla-server: rid=3  served=461  total=164.4 ms  vision=91.3  inf=72.3  other=0.8
+vla-server: rid=1  served=471  total=166.4 ms  vision=92.4  inf=73.1  other=1.0
+vla-server: rid=11  served=481  total=164.0 ms  vision=91.2  inf=71.5  other=1.4
+vla-server: rid=8  served=491  total=164.1 ms  vision=91.2  inf=71.8  other=1.2
+vla-server: rid=18  served=501  total=162.7 ms  vision=90.4  inf=71.1  other=1.2
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=9  served=511  total=162.5 ms  vision=90.6  inf=71.1  other=0.8
+vla-server: rid=5  served=521  total=165.2 ms  vision=91.4  inf=72.5  other=1.3
+vla-server: rid=15  served=531  total=165.4 ms  vision=91.7  inf=72.8  other=0.9
+vla-server: rid=25  served=541  total=167.3 ms  vision=91.3  inf=74.8  other=1.3
+vla-server: rid=35  served=551  total=161.3 ms  vision=89.7  inf=70.7  other=0.9
+vla-server: rid=45  served=561  total=164.0 ms  vision=90.9  inf=71.7  other=1.3
+vla-server: rid=8  served=571  total=164.5 ms  vision=91.1  inf=72.2  other=1.2
+vla-server: rid=6  served=581  total=164.1 ms  vision=91.1  inf=71.9  other=1.1
+vla-server: rid=3  served=591  total=163.1 ms  vision=90.6  inf=71.6  other=0.9
+vla-server: rid=13  served=601  total=167.7 ms  vision=93.5  inf=73.3  other=0.9
+vla-server: rid=1  served=611  total=166.8 ms  vision=92.7  inf=73.0  other=1.0
+vla-server: rid=11  served=621  total=171.5 ms  vision=95.3  inf=75.3  other=0.9
+vla-server: rid=5  served=631  total=166.2 ms  vision=92.2  inf=73.2  other=0.8
+vla-server: rid=2  served=641  total=172.0 ms  vision=97.2  inf=73.2  other=1.6
+vla-server: rid=12  served=651  total=238.2 ms  vision=142.2  inf=94.7  other=1.4
+vla-server: rid=22  served=661  total=179.2 ms  vision=100.3  inf=77.8  other=1.1
+vla-server: rid=32  served=671  total=164.5 ms  vision=91.0  inf=72.8  other=0.8
+vla-server: rid=42  served=681  total=170.0 ms  vision=94.5  inf=74.6  other=0.9
+vla-server: rid=2  served=691  total=171.4 ms  vision=94.5  inf=75.7  other=1.3
+vla-server: rid=0  served=701  total=421.2 ms  vision=339.0  inf=81.0  other=1.2
+vla-server: rid=10  served=711  total=155.0 ms  vision=86.1  inf=67.9  other=0.9
+vla-server: rid=20  served=721  total=172.2 ms  vision=94.7  inf=76.3  other=1.2
+vla-server: rid=30  served=731  total=164.3 ms  vision=93.0  inf=70.6  other=0.8
+vla-server: rid=40  served=741  total=179.7 ms  vision=100.9  inf=77.5  other=1.2
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=0  served=751  total=452.4 ms  vision=344.3  inf=105.9  other=2.2
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=10  served=761  total=165.1 ms  vision=92.7  inf=70.6  other=1.8
+vla-server: rid=4  served=771  total=173.2 ms  vision=96.1  inf=75.9  other=1.2
+vla-server: rid=14  served=781  total=169.5 ms  vision=94.1  inf=74.5  other=0.9
+vla-server: rid=9  served=791  total=157.6 ms  vision=87.3  inf=69.3  other=1.0
+vla-server: rid=19  served=801  total=160.1 ms  vision=88.8  inf=70.0  other=1.3
+vla-server: rid=1  served=811  total=154.6 ms  vision=85.7  inf=68.1  other=0.8
+vla-server: rid=11  served=821  total=171.4 ms  vision=95.2  inf=74.9  other=1.2
+vla-server: rid=21  served=831  total=171.5 ms  vision=95.2  inf=75.5  other=0.8
+vla-server: rid=31  served=841  total=157.4 ms  vision=87.1  inf=69.0  other=1.3
+vla-server: rid=41  served=851  total=157.9 ms  vision=87.5  inf=69.4  other=1.0
+vla-server: rid=1  served=861  total=156.6 ms  vision=86.6  inf=68.9  other=1.1
+vla-server: rid=11  served=871  total=157.0 ms  vision=86.9  inf=69.2  other=0.8
+vla-server: rid=7  served=881  total=172.7 ms  vision=95.7  inf=76.1  other=0.9
+vla-server: rid=2  served=891  total=181.0 ms  vision=100.6  inf=79.5  other=0.9
+vla-server: rid=12  served=901  total=170.2 ms  vision=94.2  inf=74.3  other=1.6
+vla-server: rid=7  served=911  total=163.3 ms  vision=90.6  inf=71.7  other=1.0
+vla-server: rid=17  served=921  total=161.2 ms  vision=89.5  inf=70.7  other=0.9
+vla-server: rid=27  served=931  total=162.0 ms  vision=89.8  inf=70.8  other=1.3
+vla-server: rid=37  served=941  total=169.9 ms  vision=94.3  inf=74.3  other=1.3
+vla-server: rid=47  served=951  total=160.8 ms  vision=89.3  inf=70.8  other=0.8
+vla-server: rid=7  served=961  total=170.0 ms  vision=94.6  inf=74.4  other=1.0
+vla-server: rid=2  served=971  total=165.1 ms  vision=91.9  inf=72.1  other=1.2
+vla-server: rid=12  served=981  total=160.7 ms  vision=89.1  inf=70.8  other=0.8
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=8  served=991  total=162.1 ms  vision=90.0  inf=71.2  other=0.9
+vla-server: rid=18  served=1001  total=169.4 ms  vision=94.1  inf=74.1  other=1.2
+vla-server: rid=28  served=1011  total=162.6 ms  vision=90.5  inf=71.2  other=0.9
+vla-server: rid=38  served=1021  total=161.5 ms  vision=89.9  inf=70.8  other=0.8
+vla-server: rid=48  served=1031  total=169.6 ms  vision=94.3  inf=74.5  other=0.8
+vla-server: rid=8  served=1041  total=167.8 ms  vision=94.0  inf=73.0  other=0.8
+vla-server: rid=5  served=1051  total=169.2 ms  vision=94.1  inf=74.2  other=0.8
+vla-server: rid=15  served=1061  total=165.2 ms  vision=91.9  inf=72.2  other=1.1
+vla-server: rid=8  served=1071  total=155.4 ms  vision=86.2  inf=68.4  other=0.8
+vla-server: rid=5  served=1081  total=161.9 ms  vision=89.9  inf=70.8  other=1.3
+vla-server: rid=15  served=1091  total=161.8 ms  vision=91.3  inf=69.7  other=0.8
+vla-server: rid=25  served=1101  total=160.7 ms  vision=89.1  inf=70.6  other=0.9
+vla-server: rid=35  served=1111  total=161.5 ms  vision=89.7  inf=70.8  other=1.0
+vla-server: rid=45  served=1121  total=170.8 ms  vision=94.6  inf=74.7  other=1.5
+vla-server: rid=5  served=1131  total=171.7 ms  vision=95.0  inf=75.4  other=1.3
+vla-server: rid=15  served=1141  total=158.3 ms  vision=88.0  inf=69.2  other=1.0
+vla-server: rid=25  served=1151  total=155.2 ms  vision=86.0  inf=68.1  other=1.1
+vla-server: rid=35  served=1161  total=172.0 ms  vision=95.0  inf=75.9  other=1.0
+vla-server: rid=45  served=1171  total=155.7 ms  vision=86.4  inf=68.3  other=1.0
+vla-server: rid=5  served=1181  total=178.8 ms  vision=100.4  inf=77.5  other=0.8
+vla-server: rid=15  served=1191  total=157.4 ms  vision=87.3  inf=69.0  other=1.0
+vla-server: rid=25  served=1201  total=155.5 ms  vision=86.2  inf=68.6  other=0.8
+vla-server: rid=35  served=1211  total=169.5 ms  vision=94.3  inf=74.1  other=1.0
+vla-server: rid=45  served=1221  total=157.5 ms  vision=87.5  inf=68.9  other=1.1
+vla-server: rid=5  served=1231  total=170.3 ms  vision=94.6  inf=74.5  other=1.2
+vla-server: rid=15  served=1241  total=165.8 ms  vision=91.7  inf=73.2  other=0.9
+vla-server: rid=7  served=1251  total=179.5 ms  vision=100.5  inf=78.1  other=0.9
+vla-server: rid=17  served=1261  total=166.3 ms  vision=92.5  inf=72.9  other=0.9
+vla-server: rid=27  served=1271  total=157.5 ms  vision=87.1  inf=69.5  other=0.8
+vla-server: rid=37  served=1281  total=163.3 ms  vision=90.2  inf=72.2  other=0.9
+vla-server: rid=47  served=1291  total=158.9 ms  vision=87.5  inf=70.0  other=1.4
+vla-server: rid=7  served=1301  total=173.3 ms  vision=96.1  inf=76.3  other=1.0
+vla-server: rid=17  served=1311  total=163.7 ms  vision=90.6  inf=72.3  other=0.8
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=6  served=1321  total=166.4 ms  vision=92.2  inf=73.1  other=1.1
+vla-server: rid=1  served=1331  total=166.5 ms  vision=92.3  inf=73.5  other=0.8
+vla-server: rid=11  served=1341  total=162.6 ms  vision=89.8  inf=71.8  other=1.1
+vla-server: rid=7  served=1351  total=165.1 ms  vision=91.7  inf=72.6  other=0.8
+vla-server: rid=2  served=1361  total=174.6 ms  vision=98.8  inf=74.7  other=1.1
+vla-server: rid=12  served=1371  total=162.1 ms  vision=89.1  inf=71.9  other=1.1
+vla-server: rid=7  served=1381  total=162.4 ms  vision=89.8  inf=71.8  other=0.8
+vla-server: rid=2  served=1391  total=182.8 ms  vision=100.9  inf=80.6  other=1.2
+vla-server: rid=12  served=1401  total=171.1 ms  vision=94.7  inf=75.5  other=0.9
+vla-server: rid=7  served=1411  total=163.3 ms  vision=91.1  inf=71.3  other=0.9
+vla-server: rid=2  served=1421  total=163.0 ms  vision=90.5  inf=71.6  other=0.8
+vla-server: rid=12  served=1431  total=166.5 ms  vision=92.5  inf=72.9  other=1.0
+vla-server: rid=7  served=1441  total=155.5 ms  vision=86.3  inf=68.0  other=1.2
+vla-server: rid=17  served=1451  total=162.2 ms  vision=90.1  inf=71.4  other=0.8
+vla-server: rid=27  served=1461  total=169.1 ms  vision=93.3  inf=74.6  other=1.2
+vla-server: rid=1  served=1471  total=168.8 ms  vision=93.8  inf=74.0  other=0.9
+vla-server: rid=11  served=1481  total=163.0 ms  vision=90.5  inf=71.8  other=0.8
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=7  served=1491  total=159.1 ms  vision=88.2  inf=69.9  other=0.9
+vla-server: rid=4  served=1501  total=154.4 ms  vision=85.9  inf=67.8  other=0.7
+vla-server: rid=1  served=1511  total=171.7 ms  vision=95.4  inf=75.5  other=0.8
+vla-server: rid=11  served=1521  total=158.6 ms  vision=87.7  inf=70.0  other=0.9
+vla-server: rid=8  served=1531  total=170.2 ms  vision=96.5  inf=72.6  other=1.0
+vla-server: rid=2  served=1541  total=170.2 ms  vision=94.4  inf=74.6  other=1.2
+vla-server: rid=12  served=1551  total=170.6 ms  vision=94.7  inf=74.7  other=1.1
+vla-server: rid=8  served=1561  total=156.5 ms  vision=86.8  inf=68.4  other=1.4
+vla-server: rid=18  served=1571  total=157.5 ms  vision=87.2  inf=69.4  other=0.9
+vla-server: rid=28  served=1581  total=175.3 ms  vision=96.7  inf=77.7  other=0.9
+vla-server: rid=38  served=1591  total=165.7 ms  vision=93.7  inf=71.2  other=0.8
+vla-server: rid=48  served=1601  total=171.7 ms  vision=95.0  inf=75.5  other=1.2
+vla-server: rid=8  served=1611  total=170.6 ms  vision=94.7  inf=74.6  other=1.3
+vla-server: rid=5  served=1621  total=155.3 ms  vision=86.5  inf=68.0  other=0.8
+vla-server: rid=2  served=1631  total=179.8 ms  vision=100.3  inf=78.7  other=0.9
+vla-server: rid=0  served=1641  total=333.0 ms  vision=254.3  inf=77.9  other=0.8
+vla-server: rid=10  served=1651  total=181.9 ms  vision=102.3  inf=78.3  other=1.3
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=5  served=1661  total=169.0 ms  vision=94.1  inf=74.0  other=0.9
+vla-server: rid=15  served=1671  total=163.8 ms  vision=92.3  inf=70.8  other=0.7
+vla-server: rid=9  served=1681  total=164.6 ms  vision=91.9  inf=71.8  other=1.0
+vla-server: rid=1  served=1691  total=176.3 ms  vision=98.5  inf=77.1  other=0.7
+vla-server: rid=11  served=1701  total=163.9 ms  vision=91.1  inf=71.8  other=1.0
+vla-server: rid=6  served=1711  total=180.2 ms  vision=99.5  inf=78.9  other=1.8
+vla-server: rid=2  served=1721  total=162.4 ms  vision=90.5  inf=71.0  other=0.8
+vla-server: rid=12  served=1731  total=164.5 ms  vision=91.9  inf=71.7  other=0.8
+vla-server: rid=6  served=1741  total=161.3 ms  vision=89.7  inf=70.6  other=0.9
+vla-server: rid=1  served=1751  total=165.0 ms  vision=91.9  inf=72.2  other=0.8
+vla-server: rid=11  served=1761  total=172.9 ms  vision=97.0  inf=75.1  other=0.8
+vla-server: rid=6  served=1771  total=168.4 ms  vision=93.9  inf=73.8  other=0.7
+vla-server: rid=1  served=1781  total=167.3 ms  vision=93.2  inf=73.1  other=1.0
+vla-server: rid=11  served=1791  total=164.8 ms  vision=91.1  inf=72.8  other=0.9
+vla-server: rid=4  served=1801  total=159.5 ms  vision=88.6  inf=70.0  other=0.9
+vla-server: rid=14  served=1811  total=164.1 ms  vision=91.1  inf=71.8  other=1.3
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=8  served=1821  total=164.1 ms  vision=91.3  inf=71.8  other=1.0
+vla-server: rid=18  served=1831  total=162.1 ms  vision=89.9  inf=71.0  other=1.2
+vla-server: rid=6  served=1841  total=158.5 ms  vision=88.0  inf=69.4  other=1.1
+vla-server: rid=3  served=1851  total=162.1 ms  vision=90.1  inf=70.8  other=1.2
+vla-server: rid=13  served=1861  total=157.5 ms  vision=87.1  inf=69.1  other=1.2
+vla-server: rid=9  served=1871  total=160.6 ms  vision=88.9  inf=70.5  other=1.3
+vla-server: rid=7  served=1881  total=155.2 ms  vision=86.5  inf=67.9  other=0.9
+vla-server: rid=4  served=1891  total=163.4 ms  vision=91.1  inf=71.4  other=0.9
+vla-server: rid=0  served=1901  total=448.6 ms  vision=369.3  inf=78.1  other=1.2
+vla-server: rid=10  served=1911  total=161.0 ms  vision=89.2  inf=70.8  other=1.1
+vla-server: rid=7  served=1921  total=161.9 ms  vision=90.1  inf=71.0  other=0.9
+vla-server: rid=17  served=1931  total=167.8 ms  vision=94.2  inf=72.5  other=1.1
+vla-server: rid=2  served=1941  total=157.3 ms  vision=87.4  inf=69.1  other=0.9
+vla-server: rid=12  served=1951  total=158.4 ms  vision=88.1  inf=69.4  other=0.9
+vla-server: rid=9  served=1961  total=159.6 ms  vision=88.7  inf=70.0  other=0.9
+vla-server: shutting down (served 1964 requests)

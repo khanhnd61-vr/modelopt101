@@ -1,0 +1,100 @@
+vla-server: loading model ...
+  ckpt:   models/smolvla/smolvla-libero.gguf
+vla: arch = smolvla
+vla: config = models/smolvla/smolvla-libero.gguf (gguf KV)
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 4095 MiB):
+  Device 0: NVIDIA GeForce RTX 3050 Laptop GPU, compute capability 8.6, VMM: yes, VRAM: 4095 MiB
+vla: backend = CUDA (device 0)
+vla(smolvla): fused CUDA ops on (VLA_FUSED_OPS=0 to disable)
+vla: [vram] after backend init     used=795.8 MiB  free=3299.7 MiB
+vla: tower weights resident as bf16
+vla: cfg  hidden=960 expert_h=480 expert_inter=1280 n_layers=32 n_img=64 n_lang=48 n_suffix=50 max_state=32 max_action=32
+vla: cfg  real_state_dim=8 real_action_dim=7
+vla: 416 LM GEMM weights widened to f32 for --mm-prec f32
+vla: [vram] weight_buf = 1763.1 MiB
+vla: [vram] after weights alloc    used=2559.8 MiB  free=1535.7 MiB  (+1764.0 MiB)
+vla-server: loaded. chunk_size=50  action_dim=32  n_lang=48  hidden=960  expert_h=480  timing_detail=none
+vla(smolvla): image view is 224x224, expected 512x512
+vla-server: warmup predict failed (synthetic inputs); continuing
+vla-server: bound to tcp://127.0.0.1:5555. ready.
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=0  served=1  total=808.2 ms  vision=565.8  inf=231.4  other=11.0
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=10  served=11  total=164.0 ms  vision=75.1  inf=88.0  other=0.9
+vla-server: rid=3  served=21  total=165.4 ms  vision=75.5  inf=89.1  other=0.9
+vla-server: rid=13  served=31  total=166.2 ms  vision=76.1  inf=89.1  other=1.0
+vla-server: rid=23  served=41  total=167.0 ms  vision=76.5  inf=89.5  other=1.0
+vla-server: rid=33  served=51  total=166.5 ms  vision=76.1  inf=89.5  other=0.9
+vla-server: rid=5  served=61  total=166.5 ms  vision=76.1  inf=89.5  other=0.8
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=1  served=71  total=204.1 ms  vision=75.4  inf=127.9  other=0.8
+vla-server: rid=11  served=81  total=167.0 ms  vision=76.5  inf=89.6  other=0.9
+vla-server: rid=9  served=91  total=165.7 ms  vision=75.5  inf=89.4  other=0.8
+vla-server: rid=6  served=101  total=166.8 ms  vision=75.9  inf=89.5  other=1.5
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=4  served=111  total=167.1 ms  vision=76.6  inf=89.4  other=1.0
+vla-server: rid=0  served=121  total=455.8 ms  vision=352.8  inf=102.0  other=1.0
+vla-server: rid=10  served=131  total=165.7 ms  vision=75.5  inf=89.3  other=0.9
+vla-server: rid=8  served=141  total=167.4 ms  vision=76.3  inf=89.8  other=1.3
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=3  served=151  total=164.2 ms  vision=75.3  inf=87.9  other=0.9
+vla-server: rid=0  served=161  total=384.8 ms  vision=281.8  inf=102.1  other=0.9
+vla-server: rid=10  served=171  total=164.4 ms  vision=75.3  inf=88.2  other=0.9
+vla-server: rid=6  served=181  total=163.6 ms  vision=74.8  inf=88.0  other=0.8
+vla-server: rid=16  served=191  total=164.7 ms  vision=75.4  inf=88.5  other=0.8
+vla-server: rid=26  served=201  total=166.2 ms  vision=75.6  inf=89.5  other=1.1
+vla-server: rid=36  served=211  total=165.0 ms  vision=75.2  inf=88.9  other=0.9
+vla-server: rid=46  served=221  total=166.4 ms  vision=76.3  inf=89.1  other=0.9
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=6  served=231  total=165.4 ms  vision=75.7  inf=88.9  other=0.8
+vla-server: rid=0  served=241  total=339.0 ms  vision=235.8  inf=102.3  other=0.9
+vla-server: rid=10  served=251  total=165.2 ms  vision=75.2  inf=89.2  other=0.8
+vla-server: rid=6  served=261  total=165.8 ms  vision=75.7  inf=89.2  other=0.9
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=1  served=271  total=203.3 ms  vision=75.7  inf=126.5  other=1.1
+vla-server: rid=11  served=281  total=165.3 ms  vision=75.5  inf=88.9  other=0.8
+vla-server: rid=21  served=291  total=165.7 ms  vision=75.3  inf=89.5  other=0.9
+vla-server: rid=31  served=301  total=167.5 ms  vision=76.3  inf=90.3  other=0.9
+vla-server: rid=41  served=311  total=166.9 ms  vision=75.8  inf=89.9  other=1.2
+vla-server: rid=1  served=321  total=163.2 ms  vision=74.7  inf=87.7  other=0.9
+vla-server: rid=11  served=331  total=165.1 ms  vision=75.3  inf=88.9  other=0.9
+vla-server: rid=2  served=341  total=164.3 ms  vision=74.8  inf=88.7  other=0.8
+vla-server: rid=12  served=351  total=167.1 ms  vision=76.0  inf=90.0  other=1.1
+vla-server: rid=22  served=361  total=166.5 ms  vision=76.0  inf=89.6  other=0.9
+vla-server: rid=32  served=371  total=166.2 ms  vision=75.9  inf=89.3  other=0.9
+vla-server: rid=42  served=381  total=165.4 ms  vision=75.3  inf=89.3  other=0.9
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=2  served=391  total=166.1 ms  vision=75.6  inf=89.3  other=1.1
+vla-server: rid=12  served=401  total=167.3 ms  vision=76.8  inf=89.7  other=0.8
+vla-server: rid=7  served=411  total=165.9 ms  vision=75.5  inf=89.3  other=1.1
+vla-server: rid=2  served=421  total=165.6 ms  vision=75.5  inf=89.2  other=0.9
+vla-server: rid=12  served=431  total=165.6 ms  vision=75.1  inf=89.6  other=1.0
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=4  served=441  total=164.7 ms  vision=75.0  inf=88.7  other=0.9
+vla-server: rid=1  served=451  total=174.0 ms  vision=75.2  inf=97.9  other=1.0
+vla-server: rid=11  served=461  total=165.2 ms  vision=75.2  inf=89.1  other=1.0
+vla-server: rid=7  served=471  total=166.0 ms  vision=75.8  inf=89.2  other=1.1
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=2  served=481  total=165.3 ms  vision=75.4  inf=88.9  other=1.0
+vla-server: rid=12  served=491  total=165.8 ms  vision=75.3  inf=89.2  other=1.2
+vla-server: rid=7  served=501  total=165.9 ms  vision=75.3  inf=89.8  other=0.8
+vla-server: rid=2  served=511  total=164.7 ms  vision=74.9  inf=88.8  other=1.0
+vla-server: rid=12  served=521  total=166.3 ms  vision=75.4  inf=89.8  other=1.1
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+vla-server: rid=7  served=531  total=164.9 ms  vision=74.8  inf=89.1  other=1.0
+vla-server: rid=3  served=541  total=166.1 ms  vision=75.5  inf=89.5  other=1.0
+vla-server: rid=0  served=551  total=384.7 ms  vision=281.2  inf=102.7  other=0.9
+vla-server: rid=10  served=561  total=164.3 ms  vision=74.6  inf=88.8  other=0.9
+vla-server: rid=20  served=571  total=165.2 ms  vision=75.2  inf=89.1  other=1.0
+vla-server: rid=30  served=581  total=163.2 ms  vision=74.5  inf=87.8  other=0.9
+vla-server: rid=40  served=591  total=164.4 ms  vision=74.9  inf=88.4  other=1.1
+vla-server: shutting down (served 600 requests)

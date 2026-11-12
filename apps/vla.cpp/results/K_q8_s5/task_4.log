@@ -1,0 +1,119 @@
+[robosuite WARNING] No private macro file found! (__init__.py:7)
+[robosuite WARNING] It is recommended to use a private macro file (__init__.py:8)
+[robosuite WARNING] To setup, run: python /home/whfdi/vla.cpp/eval/sim/libero/libero_uv/.venv/lib/python3.10/site-packages/robosuite/scripts/setup_macros.py (__init__.py:9)
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+vla-cpp-direct[arch=smolvla]: connected to tcp://localhost:5555
+vla-cpp-direct: loading tokenizer HuggingFaceTB/SmolVLM2-500M-Instruct
+/home/whfdi/vla.cpp/eval/sim/libero/libero_uv/.venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:159: UserWarning: [33mWARN: The obs returned by the `reset()` method is not within the observation space.[0m
+  logger.warn(f"{pre} is not within the observation space.")
+/home/whfdi/vla.cpp/eval/sim/libero/libero_uv/.venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:159: UserWarning: [33mWARN: The obs returned by the `step()` method is not within the observation space.[0m
+  logger.warn(f"{pre} is not within the observation space.")
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[Warning]: datasets path /home/whfdi/vla.cpp/eval/sim/libero/LIBERO/libero/libero/../datasets does not exist!
+[Warning]: datasets path /home/whfdi/vla.cpp/eval/sim/libero/LIBERO/libero/libero/../datasets does not exist!
+*** Episode 1/10
+- Episode finished after 139 steps.
+- Final reward: 1.00
+- Episode Information:
+{'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True, 'final_info': {'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True}}
+- Average inference time per step: 20.23 ms
+*** Episode 2/10
+- Episode finished after 147 steps.
+- Final reward: 1.00
+- Episode Information:
+{'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True, 'final_info': {'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True}}
+- Average inference time per step: 21.64 ms
+*** Episode 3/10
+- Episode finished after 136 steps.
+- Final reward: 1.00
+- Episode Information:
+{'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True, 'final_info': {'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True}}
+- Average inference time per step: 20.81 ms
+*** Episode 4/10
+- Episode finished after 144 steps.
+- Final reward: 1.00
+- Episode Information:
+{'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True, 'final_info': {'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True}}
+- Average inference time per step: 22.23 ms
+*** Episode 5/10
+- Episode finished after 146 steps.
+- Final reward: 1.00
+- Episode Information:
+{'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True, 'final_info': {'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True}}
+- Average inference time per step: 22.3 ms
+*** Episode 6/10
+- Episode finished after 133 steps.
+- Final reward: 1.00
+- Episode Information:
+{'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True, 'final_info': {'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True}}
+- Average inference time per step: 35.37 ms
+*** Episode 7/10
+- Episode finished after 132 steps.
+- Final reward: 1.00
+- Episode Information:
+{'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True, 'final_info': {'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True}}
+- Average inference time per step: 23.44 ms
+*** Episode 8/10
+- Episode finished after 143 steps.
+- Final reward: 1.00
+- Episode Information:
+{'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True, 'final_info': {'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True}}
+- Average inference time per step: 20.9 ms
+*** Episode 9/10
+- Episode finished after 141 steps.
+- Final reward: 1.00
+- Episode Information:
+{'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True, 'final_info': {'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': True, 'is_success': True}}
+- Average inference time per step: 19.26 ms
+*** Episode 10/10
+- Episode finished after 500 steps.
+- Final reward: 0.00
+- Episode Information:
+{'task': 'pick_up_the_ketchup_and_place_it_in_the_basket', 'task_id': 4, 'done': False, 'is_success': False}
+- Average inference time per step: 17.54 ms
+*** All episodes completed.
+- Success rate: 90.00%  (9/10)
+- Skipped (terminated mid-step): 0/10
+- Saved videos to: /home/whfdi/libero_outputs/exp/K_q8_s5/smolvla/libero_object/task_4
